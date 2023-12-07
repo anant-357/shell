@@ -1,4 +1,8 @@
-use std::io::{stdin, stdout, Write};
+use std::{
+    env,
+    io::{stdin, stdout, Write},
+    path, process,
+};
 
 fn main() {
     let mut history: Vec<String> = Vec::new();
@@ -8,7 +12,7 @@ fn main() {
             Ok(_) => (),
             Err(_) => {
                 eprintln!("IO Error");
-                std::process::exit(1);
+                process::exit(1);
             }
         }
 
@@ -17,23 +21,25 @@ fn main() {
             Ok(_) => (),
             Err(_) => {
                 eprintln!("IO Error");
-                std::process::exit(1);
+                process::exit(1);
             }
         }
         history.push(input.clone());
 
-        let mut commands = input.trim().split_whitespace();
-        println!("Commands {:#?}", commands);
-        while let Some(command) = commands.next() {
-            let mut parts = command.trim().split_whitespace();
-            println!("\tparts {:#?}", parts);
-            let command = parts.next().unwrap();
-            let args = parts;
+        let mut parts = input.trim().split_whitespace();
+        let command = parts.next().unwrap();
+        let args = parts;
 
-            match command {
-                "exit" => std::process::exit(1),
-                _ => (),
-            }
+        match command {
+            "exit" => process::exit(1),
+            "pwd" => println!("{:#?}", env::current_dir()),
+            "cd" => match env::set_current_dir(path::Path::new(
+                args.clone().peekable().peek().map_or("/", |x| *x),
+            )) {
+                Ok(_) => println!("{:#?}", args.peekable().peek()),
+                Err(e) => eprintln!("{}", e),
+            },
+            _ => (),
         }
     }
 }
