@@ -23,10 +23,17 @@ fn main() {
         history.push(input.clone());
 
         let mut commands = input.trim().split_whitespace();
+        println!("Commands {:#?}", commands);
         while let Some(command) = commands.next() {
             let mut parts = command.trim().split_whitespace();
+            println!("\tparts {:#?}", parts);
             let command = parts.next().unwrap();
             let args = parts;
+
+            match command {
+                "exit" => std::process::exit(1),
+                _ => (),
+            }
         }
     }
 }
