@@ -4,10 +4,8 @@ written in rust
 
 ## To do :
 
-- Add command: cd
-- Add command: exit
-- Add command: mkdir
-- Add command: rm
+-<s> Add command: cd </s> -<s> Add command: exit </s>
+
 - Add scripting: variables
 - ...
 -
